@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { provideRouter } from '@angular/router';
-// import { AppComponent } from './app/app.component';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(FormsModule),
-     provideRouter(routes)
+     provideRouter(routes),
+     provideAnimations() 
   ]
 });

@@ -1,32 +1,41 @@
 <form>
-   
+
   <label>Product name:</label><input name="product_name" [(ngModel)]="product_name" placeholder="Product Name">
   <br><br>
   <label name="product_category">Product Category:</label>
-  <select  name="product_category" [(ngModel)]="product_category">
-  <option value="">-- Select --</option>
-    <option value="Groceries">Groceries</option>
-  <option value="Medicine">Medicine</option>
-  <option value="Cosmetics">Cosmetics</option>
-  <option value="Others">Others</option>
-  </select>
-  <!-- <p>Selected: {{ product_category }}</p> -->
-  @if(product_category=="Others"){
+<p-select
+  [options]="categories"
+  [(ngModel)]="product_category"
+  placeholder="-- Select --"
+  (onChange)="onCategoryChange($event)">
+</p-select>
   <br><br>
-  <label>Product category:</label><input name="product_subcategory" [(ngModel)]="product_subcategory" placeholder="Enter Category">
-  }
-<br><br>
   <label>Expairy Date:</label><input name="expairy_date" [(ngModel)]="expairy_date" type="date" placeholder="Date">
   <br><br>
   @if(product_category=="Medicine"){
-  <label>Opened Date:</label><input name="open_date" [(ngModel)]="open_date" type="date" placeholder="Open Date"><br><br>
-  <label>No of Days:</label><input name="number_of_days" type="number" [(ngModel)]="number_of_days" placeholder="Enter Days">
+  <label>Opened Date:</label><input name="open_date" [(ngModel)]="open_date" type="date"
+    placeholder="Open Date"><br><br>
+  <label>No of Days:</label><input name="number_of_days" type="number" [(ngModel)]="number_of_days"
+    placeholder="Enter Days">
   <br><br>
   }
-   <button name="Submit" (click)="Submit()">Submit</button>
+  <button name="Submit" (click)="Submit()">Submit</button>
 </form>
 
 
-<!-- <ul>
-  <li *ngFor="let user of users">{{ user.name }}</li>
-</ul> -->
+
+<p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+  <span class="p-text-secondary block mb-8">Update your information.</span>
+  <div class="flex items-center gap-4 mb-4">
+    <label for="username" class="font-semibold w-24">Username</label>
+    <input pInputText id="username" class="flex-auto" autocomplete="off" />
+  </div>
+  <div class="flex items-center gap-4 mb-8">
+    <label for="email" class="font-semibold w-24">Email</label>
+    <input pInputText id="email" class="flex-auto" autocomplete="off" />
+  </div>
+  <div class="flex justify-end gap-2">
+    <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+    <p-button label="Save" (click)="visible = false" />
+  </div>
+</p-dialog>

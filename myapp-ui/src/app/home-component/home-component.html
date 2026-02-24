@@ -3,6 +3,7 @@
 <div class="tabs">
   <button (click)="activeTab = 'product'">Product</button>
   <button (click)="activeTab = 'list'">List</button>
+  <button (click)="activeTab = 'custom'">Customize</button>
 </div>
 @if (activeTab === 'product')
 {<div >
@@ -11,5 +12,10 @@
 @if (activeTab === 'list')
 {<div >
   <app-list-component></app-list-component>
+</div>
+}
+@if (activeTab === 'custom')
+{<div >
+ <app-custome-component></app-custome-component>
 </div>
 }
