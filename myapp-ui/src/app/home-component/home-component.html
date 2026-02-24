@@ -1,0 +1,15 @@
+<h2>Home Page</h2>
+
+<div class="tabs">
+  <button (click)="activeTab = 'product'">Product</button>
+  <button (click)="activeTab = 'list'">List</button>
+</div>
+@if (activeTab === 'product')
+{<div >
+ <app-product-component></app-product-component>
+</div>}
+@if (activeTab === 'list')
+{<div >
+  <app-list-component></app-list-component>
+</div>
+}

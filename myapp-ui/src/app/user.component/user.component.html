@@ -1,8 +1,58 @@
-<input [(ngModel)]="name" placeholder="Name">
-<input [(ngModel)]="email" placeholder="Email">
-<button (click)="save()">Save</button>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login & Sign Up</title>
+ 
+</head>
+<body>
 
-<ul>
-  <!-- Use *ngFor instead of [ngForOf] -->
-  <li *ngFor="let user of users">{{ user.name }}</li>
-</ul>
+  <div class="container">
+
+    <!-- Login Form -->
+   @if (isLogin)
+   { <div id="loginForm" >
+      <h2>Login</h2>
+      <form>
+        <input name="user_name" [(ngModel)]="user_name" placeholder="Email" required><br><br>
+        <input name="password" [(ngModel)]="password" placeholder="Password" required><br><br>
+        <button name="Login" (click)="login()">Login</button>
+      </form>
+      <br><br>
+       <div class="toggle" (click)="showSignup()">
+        Already have an account? Sign Up
+      </div>
+    </div>}
+
+    <!-- Sign Up Form -->
+   @if (!isLogin) {
+  <div id="signupForm">
+    <h2>Sign Up</h2>
+    <form>
+      <input name="text" placeholder="Full Name" required><br><br>
+      <input name="email" placeholder="Email" required><br><br>
+      <input name="password" placeholder="Password" required><br><br>
+      <button name="submit">Sign Up</button>
+    </form>
+    <div class="toggle" (click)="showSignup()">
+      Already have an account? Login
+    </div>
+  </div>
+}
+
+
+  </div>
+
+  <!-- <script>
+    function showSignup() {
+      document.getElementById("loginForm").classList.add("hidden");
+      document.getElementById("signupForm").classList.remove("hidden");
+    }
+
+    function showLogin() {
+      document.getElementById("signupForm").classList.add("hidden");
+      document.getElementById("loginForm").classList.remove("hidden");
+    }
+  </script> -->
+
+</body>
+</html>

@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
 import { UserService } from './services/user.service'; // <-- correct path
-// import { UserComponent } from './user.component/user.component';
 import { AppComponent } from './app.component';
 import { UserComponent } from './user.component/user.component';
 

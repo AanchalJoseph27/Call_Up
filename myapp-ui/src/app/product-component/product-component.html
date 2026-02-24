@@ -1,0 +1,32 @@
+<form>
+   
+  <label>Product name:</label><input name="product_name" [(ngModel)]="product_name" placeholder="Product Name">
+  <br><br>
+  <label name="product_category">Product Category:</label>
+  <select  name="product_category" [(ngModel)]="product_category">
+  <option value="">-- Select --</option>
+    <option value="Groceries">Groceries</option>
+  <option value="Medicine">Medicine</option>
+  <option value="Cosmetics">Cosmetics</option>
+  <option value="Others">Others</option>
+  </select>
+  <!-- <p>Selected: {{ product_category }}</p> -->
+  @if(product_category=="Others"){
+  <br><br>
+  <label>Product category:</label><input name="product_subcategory" [(ngModel)]="product_subcategory" placeholder="Enter Category">
+  }
+<br><br>
+  <label>Expairy Date:</label><input name="expairy_date" [(ngModel)]="expairy_date" type="date" placeholder="Date">
+  <br><br>
+  @if(product_category=="Medicine"){
+  <label>Opened Date:</label><input name="open_date" [(ngModel)]="open_date" type="date" placeholder="Open Date"><br><br>
+  <label>No of Days:</label><input name="number_of_days" type="number" [(ngModel)]="number_of_days" placeholder="Enter Days">
+  <br><br>
+  }
+   <button name="Submit" (click)="Submit()">Submit</button>
+</form>
+
+
+<!-- <ul>
+  <li *ngFor="let user of users">{{ user.name }}</li>
+</ul> -->
