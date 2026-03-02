@@ -6,7 +6,7 @@ import { HomeComponent } from "./home-component/home-component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterModule, HomeComponent],  
+  imports: [RouterModule],  
  templateUrl: './app.html'
 })
 export class AppComponent { }
