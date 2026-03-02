@@ -1,58 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Login & Sign Up</title>
- 
-</head>
-<body>
+<div class="login-container">
 
-  <div class="container">
+  <!-- Login Form -->
+  @if (isLogin)
+  { 
+    <div id="loginForm" class="custom-login" >
+    <h2>Login</h2>
+    <form>
+      <input name="user_name" [(ngModel)]="user_name" placeholder="Email" required><br><br>
+      <input name="password" [(ngModel)]="password" placeholder="Password" required><br><br>
+      <button name="Login" (click)="login()">Login</button>
+    </form>
+    <br><br>
+    <div class="toggle" (click)="showSignup()">
+      Already have an account? Sign Up
+    </div>
+  </div>}
 
-    <!-- Login Form -->
-   @if (isLogin)
-   { <div id="loginForm" >
-      <h2>Login</h2>
-      <form>
-        <input name="user_name" [(ngModel)]="user_name" placeholder="Email" required><br><br>
-        <input name="password" [(ngModel)]="password" placeholder="Password" required><br><br>
-        <button name="Login" (click)="login()">Login</button>
-      </form>
-      <br><br>
-       <div class="toggle" (click)="showSignup()">
-        Already have an account? Sign Up
-      </div>
-    </div>}
-
-    <!-- Sign Up Form -->
-   @if (!isLogin) {
-  <div id="signupForm">
+  <!-- Sign Up Form -->
+  @if (!isLogin) {
+  <div id="signupForm" class="custom-login">
     <h2>Sign Up</h2>
     <form>
-      <input name="text" placeholder="Full Name" required><br><br>
-      <input name="email" placeholder="Email" required><br><br>
-      <input name="password" placeholder="Password" required><br><br>
-      <button name="submit">Sign Up</button>
+      <input name="text" placeholder="Full Name" [(ngModel)]="full_name" required><br><br>
+      <input name="email" placeholder="Email" [(ngModel)]="email_id" required><br><br>
+      <input name="password" placeholder="Password" [(ngModel)]="password"required><br><br>
+      <button name="submit" (click)="saveUser()">Sign Up</button>
     </form>
     <div class="toggle" (click)="showSignup()">
       Already have an account? Login
     </div>
   </div>
-}
+  }
 
 
-  </div>
+</div>
 
-  <!-- <script>
-    function showSignup() {
-      document.getElementById("loginForm").classList.add("hidden");
-      document.getElementById("signupForm").classList.remove("hidden");
-    }
-
-    function showLogin() {
-      document.getElementById("signupForm").classList.add("hidden");
-      document.getElementById("loginForm").classList.remove("hidden");
-    }
-  </script> -->
-
-</body>
-</html>

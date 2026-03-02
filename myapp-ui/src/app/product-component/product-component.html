@@ -1,41 +1,56 @@
-<form>
+<div class="product-container">
+  <p-card header="Enter Product Details" class="custom-card">
+    <form (ngSubmit)="Submit()" #productForm="ngForm">
 
-  <label>Product name:</label><input name="product_name" [(ngModel)]="product_name" placeholder="Product Name">
-  <br><br>
-  <label name="product_category">Product Category:</label>
-<p-select
-  [options]="categories"
-  [(ngModel)]="product_category"
-  placeholder="-- Select --"
-  (onChange)="onCategoryChange($event)">
-</p-select>
-  <br><br>
-  <label>Expairy Date:</label><input name="expairy_date" [(ngModel)]="expairy_date" type="date" placeholder="Date">
-  <br><br>
-  @if(product_category=="Medicine"){
-  <label>Opened Date:</label><input name="open_date" [(ngModel)]="open_date" type="date"
-    placeholder="Open Date"><br><br>
-  <label>No of Days:</label><input name="number_of_days" type="number" [(ngModel)]="number_of_days"
-    placeholder="Enter Days">
-  <br><br>
-  }
-  <button name="Submit" (click)="Submit()">Submit</button>
-</form>
+      <!-- Product Name -->
+      <div class="p-field">
+        <label for="productName">Product Name:</label>
+        <input id="productName" [(ngModel)]="product_name" name="productName" required
+          placeholder="Enter product name" />
+      </div>
 
+      <!-- Product Category -->
+      <div class="p-field">
+        <label for="productCategory">Product Category:</label>
+        <p-select [options]="categories" [(ngModel)]="product_category" name="productCategory" optionLabel="label"
+          optionValue="value" placeholder="Select category" class="w-full md:w-56" (onChange)="onCategoryChange($event)"
+          appendTo="body">
+        </p-select>
+      </div>
 
+      <!-- Expiry Date -->
+      <div class="p-field">
+        <label for="expiryDate">Expiry Date:</label>
+        <p-datePicker id="expiryDate" [(ngModel)]="expairy_date" name="expiryDate" dateFormat="dd/mm/yy">
+        </p-datePicker>
+      </div>
 
-<p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
-  <span class="p-text-secondary block mb-8">Update your information.</span>
-  <div class="flex items-center gap-4 mb-4">
-    <label for="username" class="font-semibold w-24">Username</label>
-    <input pInputText id="username" class="flex-auto" autocomplete="off" />
-  </div>
-  <div class="flex items-center gap-4 mb-8">
-    <label for="email" class="font-semibold w-24">Email</label>
-    <input pInputText id="email" class="flex-auto" autocomplete="off" />
-  </div>
-  <div class="flex justify-end gap-2">
-    <p-button label="Cancel" severity="secondary" (click)="visible = false" />
-    <p-button label="Save" (click)="visible = false" />
-  </div>
+      @if (product_category === 'Medicine') {
+      <div>
+
+        <div class="p-field">
+          <label for="openDate">Open date:</label>
+          <p-datePicker id="openDate" name="openDate" [(ngModel)]="open_date" dateFormat="dd/mm/yy"></p-datePicker>
+        </div>
+        <br>
+        <div class="p-field">
+          <label for="number_of_days">Number of Days:</label>
+          <input id="number_of_days" [(ngModel)]="number_of_days" name="number_of_days" required
+            placeholder="Enter number of days after open" />
+        </div>
+
+      </div>}
+
+      <!-- Submit Button -->
+      <div class="p-field">
+        <button pButton type="submit" label="Submit" class="p-button-success"></button>
+      </div>
+
+    </form>
+  </p-card>
+</div>
+<p-dialog header="Other Category" [modal]="true" [(visible)]="showDialog">
+  <p>Enter custom category here</p>
+  <input pInputText [(ngModel)]="customCategory" />
+  <button pButton type="button" label="Submit" (click)="submitCustomCategory()"></button>
 </p-dialog>

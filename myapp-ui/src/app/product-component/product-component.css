@@ -1,0 +1,20 @@
+
+.product-container {
+  background: linear-gradient(135deg, #351c8f, #d42329);
+  min-height: 100vh;      
+  padding: 50px;    /* optional: full height */
+}
+
+
+
+.custom-card {
+  width: 500px;      /* adjust card width */
+  min-height: 500px; /* adjust card height */
+  max-width: 100%;   /* responsive */
+  margin: 0 auto;      /* center card horizontally */
+  padding: 20px;     /* inner spacing */
+}
+
+.p-field {
+  margin-bottom: 20px;
+}

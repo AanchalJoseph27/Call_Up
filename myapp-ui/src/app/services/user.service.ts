@@ -10,6 +10,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   createUser(user: any) {
+    debugger
     return this.http.post(this.apiUrl, user);
   }
 
