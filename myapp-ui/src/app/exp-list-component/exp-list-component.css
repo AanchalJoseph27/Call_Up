@@ -1,0 +1,5 @@
+.list-container {
+  background: linear-gradient(135deg, #351c8f, #d42329);
+  min-height: 100vh;      
+  padding: 50px;   
+}

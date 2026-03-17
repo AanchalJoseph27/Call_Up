@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 @Component({
     selector: 'app-home-component',
     imports: [
@@ -17,12 +18,19 @@ import { Router } from '@angular/router';
 
 
 export class HomeComponent {
-    constructor(private router: Router) { }
+    constructor(private userService: UserService, private router: Router) { }
+
+    // data: any;
+    // user_id?: number;
+
 
     items: MenuItem[] | undefined;
 
     ngOnInit() {
-        debugger
+
+        // this.loadUsers();
+        // console.log(this.userService.getUsers());
+        // debugger
         this.items = [
 
             {
@@ -35,13 +43,11 @@ export class HomeComponent {
                 icon: 'pi pi-copy',
                 routerLink: ['/list'],
                 items: [
-                    {
-                        label: 'Full List',
-                        icon: 'pi pi-bolt'
-                    },
+                    
                     {
                         label: 'Exp List',
-                        icon: 'pi pi-server'
+                        icon: 'pi pi-server',
+                        routerLink:['/exp-list']
                     },
 
                 ]
@@ -69,6 +75,20 @@ export class HomeComponent {
         // Redirect to login
         this.router.navigate(['/login']);
     }
+
+    // loadUsers() {
+    //     debugger
+    //     const user = this.userService.getUsers().subscribe({
+    //         next: (response) => {
+    //             this.data = response;
+    //             if (this.data != null) {
+    //                 this.user_id = this.data.id;
+
+    //             }
+    //         }
+
+    //     });
+    // }
 
 }
 

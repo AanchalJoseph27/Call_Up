@@ -1,3 +1,7 @@
 <div class="list-container">
-<p>list-component works!</p>
+
+
+<ul>
+  <li *ngFor="let u of productList">{{u.product_name}} -{{u.category}} -  {{u.expiry_date |date}}</li>
+</ul>
 </div>

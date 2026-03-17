@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +10,10 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, FormsModule]
 })
+@Injectable({
+  providedIn: 'root'
+})
+
 export class UserComponent implements OnInit {
   name = '';
   email = '';
@@ -19,50 +23,47 @@ export class UserComponent implements OnInit {
   email_id: string = '';
   users: any[] = [];
   isLogin: boolean = true;
-
+  data: any;
   constructor(private userService: UserService,
     private router: Router
   ) {
-    // this.loadUsers();
     this.isLogin = true;
-
   }
 
-  ngOnInit() {
-    this.loadUsers();
-  }
+  ngOnInit() {  }
 
-  save() {
-    this.userService.createUser({ name: this.name, email: this.email })
-      .subscribe(() => this.loadUsers());
-  }
+
   login() {
-    console.log(this.user_name, this.password)
-    if (this.user_name == 'test' && this.password == 'test') {
-      debugger
+    const login = { Email: this.user_name, Password: this.password };
+
+    const loginResult = this.userService.loginUser(login).subscribe({
+      next: (response) => {
+        this.data = response;
+        this.processData(this.data);
+      },
+      error: (err) => console.error('Error fetching data', err),
+    });
+  }
+
+  processData(data: any) {
+    if (data != null) {
+      // this.userService.loginUserId = data.id;
+      sessionStorage.setItem("loginUserId", data.id);
       this.router.navigate(['/product']);
-      // this.userService.loginUser({ username: this.user_name, password: this.password })
-      //   .subscribe(() => this.loadUsers());
     }
   }
+
   showSignup() {
     this.isLogin = !this.isLogin;
   }
 
-  showLogin() { }
-
   saveUser() {
-    console.log(this.full_name,this.email_id, this.password)
+    const user = { Name: this.full_name, Email: this.email_id, Password: this.password };
+    this.userService.createUser(user).subscribe({
+      next: res => console.log('Saved!', res),
+      error: err => console.error('Error', err)
+    });
+    this.isLogin = !this.isLogin;
 
-  const user = { name: this.full_name, email: this.email_id, password: this.password };
-  this.userService.createUser(user).subscribe({
-    next: res => console.log('Saved!', res),
-    error: err => console.error('Error', err)
-  });
-  }
-
-
-  loadUsers() {
-    this.userService.getUsers().subscribe(res => this.users = res as any[]);
   }
 }

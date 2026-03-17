@@ -4,42 +4,38 @@
 
       <!-- Product Name -->
       <div class="p-field">
-        <label for="productName">Product Name:</label>
+        <label for="productName">Product Name: </label>
         <input id="productName" [(ngModel)]="product_name" name="productName" required
           placeholder="Enter product name" />
       </div>
 
       <!-- Product Category -->
       <div class="p-field">
-        <label for="productCategory">Product Category:</label>
-        <p-select [options]="categories" [(ngModel)]="product_category" name="productCategory" optionLabel="label"
-          optionValue="value" placeholder="Select category" class="w-full md:w-56" (onChange)="onCategoryChange($event)"
+        <label for="productCategory">Product Category: </label>
+        <p-select [options]="categories" [(ngModel)]="product_category" name="productCategory"  optionLabel="category_name"
+          optionValue="id" placeholder="Select category"  (onChange)="onCategoryChange($event)"
           appendTo="body">
         </p-select>
       </div>
 
       <!-- Expiry Date -->
       <div class="p-field">
-        <label for="expiryDate">Expiry Date:</label>
-        <p-datePicker id="expiryDate" [(ngModel)]="expairy_date" name="expiryDate" dateFormat="dd/mm/yy">
+        <label for="expiryDate">Expiry Date: </label>
+        <p-datePicker id="expiryDate" [(ngModel)]="expiry_date" name="expiryDate" dateFormat="dd/mm/yy" showIcon >
         </p-datePicker>
       </div>
 
-      @if (product_category === 'Medicine') {
-      <div>
 
         <div class="p-field">
-          <label for="openDate">Open date:</label>
-          <p-datePicker id="openDate" name="openDate" [(ngModel)]="open_date" dateFormat="dd/mm/yy"></p-datePicker>
+          <label for="openDate">Open Date: </label>
+          <p-datePicker id="openDate" name="openDate" [(ngModel)]="open_date" dateFormat="dd/mm/yy" showIcon ></p-datePicker>
         </div>
-        <br>
         <div class="p-field">
-          <label for="number_of_days">Number of Days:</label>
-          <input id="number_of_days" [(ngModel)]="number_of_days" name="number_of_days" required
+          <label for="number_of_days">Number of Days: </label>
+          <input id="number_of_days" type="number" min="0" [(ngModel)]="number_of_days" name="number_of_days" required
             placeholder="Enter number of days after open" />
         </div>
 
-      </div>}
 
       <!-- Submit Button -->
       <div class="p-field">
