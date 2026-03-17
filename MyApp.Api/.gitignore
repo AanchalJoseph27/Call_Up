@@ -1,0 +1,60 @@
+# =========================
+# .NET / Visual Studio
+# =========================
+
+# Build results
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code
+.vscode/
+
+# Rider
+.idea/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+
+# ASP.NET Core
+appsettings.Development.json
+
+# Publish output
+publish/
+
+# NuGet
+*.nupkg
+packages/
+
+# Temporary files
+*.tmp
+*.temp
+
+# IIS Express
+iisexpress/
+
+# Entity Framework
+Migrations/*.Designer.cs
+Migrations/*.resx
+
+# node (if Angular/React inside project)
+node_modules/
+
+# Coverage reports
+coverage/
+
+# Test results
+TestResults/
