@@ -4,35 +4,28 @@ import { ProductComponent } from './product-component/product-component';
 import { HomeComponent } from './home-component/home-component';
 import { ListComponent } from './list-component/list-component';
 import { ExpListComponent } from './exp-list-component/exp-list-component';
-
-
+import { authGuard } from './auth-guard';
 
 export const routes: Routes = [
-    // {
-    //     path: 'login',
-    //     component: UserComponent
-    // },
 
-    // 👇 LOAD LOGIN FIRST
+  // redirect to login
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
-  // 👇 LOGIN (no menubar)
+  // login (no guard)
   {
     path: 'login',
     component: UserComponent
   },
 
-  // 👇 ALL OTHER PAGES WITH MENUBAR
-    {
-        path: '',
-        component: HomeComponent,
-        children: [
-            //   { path: '', component: ProductComponent },
-            { path: 'product', component: ProductComponent },
-            { path: 'list', component: ListComponent },
-            { path: 'exp-list', component: ExpListComponent }
-        ]
-    }
-
-    
+  // 🔐 PROTECTED ROUTES
+  {
+    path: '',
+    component: HomeComponent,
+    canActivate: [authGuard], // ✅ APPLY HERE
+    children: [
+      { path: 'product', component: ProductComponent },
+      { path: 'list', component: ListComponent },
+      { path: 'exp-list', component: ExpListComponent }
+    ]
+  }
 ];

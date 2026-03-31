@@ -18,14 +18,15 @@ public class ProductService
         join c in _context.Categories
             on p.category_id equals c.id
         join u in _context.Users
-            on p.user_id equals u.Id
+            on p.user_id equals u.id
         select new ProductExp
         {
          id = p.id,
          product_name = p.product_name,
+         phonenumber=u.phonenumber,
          user_id=p.user_id,
-            user_name = u.Name,        
-            user_email = u.Email,
+            user_name = u.name,        
+            user_email = u.email,
             category_id = p.category_id,
          category_name = c.category_name,
          open_date = p.open_date,

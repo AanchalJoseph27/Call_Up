@@ -1,52 +1,130 @@
-<div class="product-container">
-  <p-card header="Enter Product Details" class="custom-card">
-    <form (ngSubmit)="Submit()" #productForm="ngForm">
+<div class="product-container1">
+
+  <h3 class="welcome-text">Welcome {{ loginUserName }}</h3>
+
+  <div class="product-container">
+  <p-card header="Enter Product Details" class="custom-card product-container">
+    <form (ngSubmit)="Submit()" #productForm="ngForm" class="form-grid">
 
       <!-- Product Name -->
-      <div class="p-field">
-        <label for="productName">Product Name: </label>
-        <input id="productName" [(ngModel)]="product_name" name="productName" required
-          placeholder="Enter product name" />
+      <div class="field">
+        <label>Product Name</label>
+        <input
+          id="productName"
+          type="text"
+          pInputText
+          [(ngModel)]="product_name"
+          name="productName"
+          required
+          placeholder="Enter product name"
+          class="full-width"
+        />
       </div>
 
       <!-- Product Category -->
-      <div class="p-field">
-        <label for="productCategory">Product Category: </label>
-        <p-select [options]="categories" [(ngModel)]="product_category" name="productCategory"  optionLabel="category_name"
-          optionValue="id" placeholder="Select category"  (onChange)="onCategoryChange($event)"
-          appendTo="body">
+      <div class="field">
+        <label>Product Category</label>
+        <p-select
+          id="productCategory"
+          [options]="categories"
+          [(ngModel)]="product_category"
+          name="productCategory"
+          optionLabel="category_name"
+          optionValue="id"
+          placeholder="Select category"
+          appendTo="body"
+          class="full-width"
+          (onChange)="onCategoryChange($event)"
+          >
         </p-select>
       </div>
 
       <!-- Expiry Date -->
-      <div class="p-field">
-        <label for="expiryDate">Expiry Date: </label>
-        <p-datePicker id="expiryDate" [(ngModel)]="expiry_date" name="expiryDate" dateFormat="dd/mm/yy" showIcon >
+      <div class="field">
+        <label>Expiry Date</label>
+        <p-datePicker
+          id="expiryDate"
+          [(ngModel)]="expiry_date"
+          name="expiryDate"
+          dateFormat="dd/mm/yy"
+          showIcon
+          class="full-width">
         </p-datePicker>
       </div>
 
+      <!-- Open Date -->
+      <div class="field">
+        <label >Open Date</label>
+        <p-datePicker
+          id="openDate"
+          [(ngModel)]="open_date"
+          name="openDate"
+          dateFormat="dd/mm/yy"
+          showIcon
+          class="full-width">
+        </p-datePicker>
+      </div>
 
-        <div class="p-field">
-          <label for="openDate">Open Date: </label>
-          <p-datePicker id="openDate" name="openDate" [(ngModel)]="open_date" dateFormat="dd/mm/yy" showIcon ></p-datePicker>
-        </div>
-        <div class="p-field">
-          <label for="number_of_days">Number of Days: </label>
-          <input id="number_of_days" type="number" min="0" [(ngModel)]="number_of_days" name="number_of_days" required
-            placeholder="Enter number of days after open" />
-        </div>
+      <!-- Number of Days -->
+      <div class="field">
+        <label >Number of Days</label>
+        <input
+          id="number_of_days"
+          type="number"
+          pInputText
+          [(ngModel)]="number_of_days"
+          name="number_of_days"
+          min="0"
+          required
+          placeholder="Enter days after open"
+          class="full-width"
+        />
+      </div>
 
-
-      <!-- Submit Button -->
-      <div class="p-field">
-        <button pButton type="submit" label="Submit" class="p-button-success"></button>
+      <!-- Submit -->
+      <div class="field button-field">
+        <button
+          pButton
+          type="submit"
+          label="Submit"
+          class="p-button-success full-width"
+          [disabled]="productForm.invalid">
+        </button>
       </div>
 
     </form>
   </p-card>
 </div>
-<p-dialog header="Other Category" [modal]="true" [(visible)]="showDialog">
-  <p>Enter custom category here</p>
-  <input pInputText [(ngModel)]="customCategory" />
-  <button pButton type="button" label="Submit" (click)="submitCustomCategory()"></button>
+</div>
+
+<!-- Dialog -->
+<p-dialog
+  header="Other Category"
+  [(visible)]="showDialog"
+  [modal]="true"
+  [style]="{ width: '400px' }"
+   (onHide)="hideDialog()">
+
+  <div class="form-grid">
+    <div class="field">
+      <label >Custom Category</label>
+      <input
+        id="customCategory"
+        pInputText
+        [(ngModel)]="customCategory"
+        class="full-width"
+      />
+    </div>
+
+    <div class="field">
+      <button
+        pButton
+        label="Submit"
+        class="full-width"
+        (click)="submitCustomCategory()">
+        
+      </button>
+    </div>
+  </div>
+
 </p-dialog>

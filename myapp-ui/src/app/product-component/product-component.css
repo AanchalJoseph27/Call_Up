@@ -1,20 +1,59 @@
-
-.product-container {
+.product-container1 {
   background: linear-gradient(135deg, #351c8f, #d42329);
-  min-height: 100vh;      
-  padding: 50px;    /* optional: full height */
+  height: 100vh;
+  position: relative; /* needed for absolute positioning */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+/* 👇 Top-left positioning */
+.welcome-text {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: white;
+  margin: 0;
+}
+
+/* Center card */
+.product-container {
+  width: 100%;
+  max-width: 500px;
+}
 
 
 .custom-card {
-  width: 500px;      /* adjust card width */
-  min-height: 500px; /* adjust card height */
-  max-width: 100%;   /* responsive */
-  margin: 0 auto;      /* center card horizontally */
-  padding: 20px;     /* inner spacing */
+  width: 400px;
 }
 
-.p-field {
-  margin-bottom: 20px;
+/* Grid layout */
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
+
+/* Each field */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Full width inputs */
+.full-width {
+  width: 100%;
+}
+
+/* Button spacing */
+.button-field {
+  margin-top: 10px;
+}
+
+/* Label styling */
+label {
+  font-weight: 500;
+}
+

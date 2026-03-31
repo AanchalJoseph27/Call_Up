@@ -1,7 +1,21 @@
 <div class="list-container">
+    <p-table [lazy]="true" (onLazyLoad)="getAllProductbyId($event)" [value]="productList"
+        [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="30" [loading]="loading"
+        [totalRecords]="totalRecords">
+        <ng-template #header>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Expiry Date</th>
 
-
-<ul>
-  <li *ngFor="let u of productList">{{u.product_name}} -{{u.category}} -  {{u.expiry_date |date}}</li>
-</ul>
+            </tr>
+        </ng-template>
+        <ng-template #body let-productList>
+            <tr>
+                <td>{{ productList.product_name }}</td>
+                <td>{{ productList.category }}</td>
+                <td>{{ productList.expiry_date |date }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>

@@ -47,12 +47,18 @@ public class EmailService
         {
             var toEmail = group.Key;
 
+            // ✅ Skip if email is null or empty
+            if (string.IsNullOrWhiteSpace(toEmail))
+            {
+                continue;
+            }
+
             string subject = "Expiring Products Alert";
             string body = "The following products are expiring this month:\n";
 
             foreach (var p in group)
             {
-                body += $"{p.product_name} - {p.expiry_date}\n";
+                body += $"{p.product_name} - {p.expiry_date:dd-MM-yyyy}\n";
             }
 
             await SendEmailAsync(toEmail, subject, body);

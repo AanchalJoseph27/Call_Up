@@ -21,11 +21,10 @@ public class MonthlyExpiryService : BackgroundService
         Console.WriteLine("Service running at: " + DateTime.Now);
         while (!stoppingToken.IsCancellationRequested)
         {
-             var now = DateTime.Now;
+            //var now = DateTime.Now;
             //if (true)//TESTING
-            // Run only on first day of month
-            if (now.Day == 1)
-                {
+            if (now.Day == 1) // Run only on first day of month
+            {
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     var productService = scope.ServiceProvider.GetRequiredService<ProductService>();

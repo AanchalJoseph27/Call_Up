@@ -30,7 +30,7 @@ import { UserService } from '../services/user.service';
 
 export class ProductComponent implements OnInit {
   product_name?: string;
-  product_category?: number;
+  product_category: number | null = null;
   customCategory?: string;
   product_subcategory?: string;
   expiry_date : Date | null=null;
@@ -38,12 +38,13 @@ export class ProductComponent implements OnInit {
   // open_date = new Date();
   number_of_days = 0;
   products: any[] = [];
-  category_id?: number;
+  category_id?: number | null = null;
   categories: any;
   showDialog: boolean = false;
   userId: any;
   temp_product_category?: any;
   loginUserId: any;
+  loginUserName: any;
   productList: any;
 
 
@@ -51,7 +52,7 @@ export class ProductComponent implements OnInit {
     private router: Router
   ) {
     this.loginUserId = sessionStorage.getItem("loginUserId");
-
+    this.loginUserName = sessionStorage.getItem("loginUserName");
   }
 
   ngOnInit() {
@@ -79,7 +80,7 @@ export class ProductComponent implements OnInit {
   }
 
   Submit() {
-    debugger
+    //debugger
     this.category_id = this.product_category
 
     console.log(this.loginUserId, this.product_name, this.category_id, this.expiry_date?.toISOString().split('T')[0], this.open_date?.toISOString().split('T')[0], this.number_of_days)
@@ -97,13 +98,14 @@ export class ProductComponent implements OnInit {
   }
 
   submitCustomCategory() {
-    // debugger
+    // //debugger
     const category = { category_name: this.customCategory };
     this.userService.createCategory(category).subscribe({
       next: (res) => {
         this.temp_product_category = res;
         console.log(this.temp_product_category.id);
         this.product_category = this.temp_product_category.id;
+        this.category_id = this.temp_product_category.id;
         this.getAllCategories();
       },
       error: err => console.error('Error', err)
@@ -112,11 +114,17 @@ export class ProductComponent implements OnInit {
   }
 
   onCategoryChange(event: any) {
-    debugger
-    console.log(this.product_category);
-    this.category_id = this.product_category
-    if (this.product_category == 0) {
+    //debugger
+    console.log(event.value);
+    this.category_id = event.value
+    if (event.value === 0) {
       this.showDialog = true;
     }
   }
+  hideDialog(){
+      this.product_category= null;
+
+  }
+
+  
 }

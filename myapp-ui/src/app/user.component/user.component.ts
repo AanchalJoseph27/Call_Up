@@ -19,6 +19,7 @@ export class UserComponent implements OnInit {
   email = '';
   user_name: string = '';
   password: string = '';
+  phonenumber:number | undefined;
   full_name: string = '';
   email_id: string = '';
   users: any[] = [];
@@ -30,25 +31,33 @@ export class UserComponent implements OnInit {
     this.isLogin = true;
   }
 
-  ngOnInit() {  }
+  ngOnInit() { 
+     if (localStorage.getItem('token')) {
+    this.router.navigate(['/product']);
+  }
+   }
 
 
   login() {
-    const login = { Email: this.user_name, Password: this.password };
+    const login = { email: this.user_name, password: this.password };
 
     const loginResult = this.userService.loginUser(login).subscribe({
       next: (response) => {
+        debugger
         this.data = response;
         this.processData(this.data);
+        console.log(this.data)
       },
-      error: (err) => console.error('Error fetching data', err),
+      error: (err) => {alert('Login failed! Please check your credentials.');}
     });
   }
 
   processData(data: any) {
     if (data != null) {
       // this.userService.loginUserId = data.id;
-      sessionStorage.setItem("loginUserId", data.id);
+      localStorage.setItem('token', data.token);
+      sessionStorage.setItem("loginUserId", data.user.id);
+      sessionStorage.setItem("loginUserName", data.user.name);
       this.router.navigate(['/product']);
     }
   }
@@ -58,7 +67,7 @@ export class UserComponent implements OnInit {
   }
 
   saveUser() {
-    const user = { Name: this.full_name, Email: this.email_id, Password: this.password };
+    const user = { name: this.full_name, email: this.email_id, password: this.password, phonenumber:this.phonenumber};
     this.userService.createUser(user).subscribe({
       next: res => console.log('Saved!', res),
       error: err => console.error('Error', err)
