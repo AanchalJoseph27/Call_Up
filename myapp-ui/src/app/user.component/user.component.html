@@ -2,8 +2,8 @@
 
   <!-- Login Form -->
   @if (isLogin)
-  { 
-    <div id="loginForm" class="custom-login" >
+  {
+  <div id="loginForm" class="custom-login">
     <h2>Login</h2>
     <form>
       <input name="user_name" [(ngModel)]="user_name" placeholder="Email" required><br><br>
@@ -20,12 +20,85 @@
   @if (!isLogin) {
   <div id="signupForm" class="custom-login">
     <h2>Sign Up</h2>
-    <form>
-      <input name="text" placeholder="Full Name" [(ngModel)]="full_name" required><br><br>
-      <input name="email" placeholder="Email" [(ngModel)]="email_id" required><br><br>
-      <input name="password" placeholder="Password" [(ngModel)]="password"required><br><br>
-      <input name="phonenumber" placeholder="Phone Number" [(ngModel)]="phonenumber"required><br><br>
-      <button name="submit" (click)="saveUser()">Sign Up</button>
+    <form #userForm="ngForm" (ngSubmit)="saveUser()" novalidate>
+
+      <!-- Full Name -->
+      <input name="full_name" placeholder="Full Name" [(ngModel)]="full_name" #fullName="ngModel" required>
+      @if (fullName.invalid && fullName.touched) {
+      <div style="color:red">
+        Full Name is required
+      </div>
+      }
+
+
+      <br><br>
+
+      <!-- Email -->
+      <input name="email" placeholder="Email" [(ngModel)]="email_id" #email="ngModel" required email>
+      @if (email.invalid && email.touched) {
+      <div style="color:red">
+        @if (email.errors?.['required']) {
+        <span>Email is required</span>
+
+        }
+        @if (email.errors?.['email']) {
+        <span>Invalid email format</span>
+
+        }
+      </div>
+      }
+
+
+
+      <br><br>
+
+      <!-- Password -->
+      <input type="password" name="password" placeholder="Password" [(ngModel)]="password" #passwordRef="ngModel"
+        required minlength="6">
+
+      @if (passwordRef.invalid && passwordRef.touched) {
+      <div style="color:red">
+        @if (passwordRef.errors?.['required']) {
+        <span>Password is required</span>
+
+        }
+        @if (passwordRef.errors?.['minlength']) {
+        <span>
+          Minimum 6 characters required
+        </span>
+        }
+
+      </div>
+      }
+
+      <br><br>
+
+      <!-- Phone Number -->
+      <input name="phonenumber" placeholder="Phone Number" [(ngModel)]="phonenumber" #phone="ngModel" required
+        pattern="^[0-9]{10,15}$">
+      @if (phone.invalid && phone.touched) {
+      <div style="color:red">
+        @if (phone.errors?.['required']) {
+        <span>Phone number is required</span>
+        }
+        @if ( phone.errors?.['pattern'])
+        {
+        <span>
+          Enter valid phone number
+        </span>
+        }
+
+      </div>
+      }
+
+
+      <br><br>
+
+      <!-- Submit Button -->
+      <button type="submit" [disabled]="userForm.invalid">
+        Sign Up
+      </button>
+
     </form>
     <div class="toggle" (click)="showSignup()">
       Already have an account? Login
@@ -35,4 +108,3 @@
 
 
 </div>
-
