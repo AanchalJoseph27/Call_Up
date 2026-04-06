@@ -1,5 +1,5 @@
 <div class="list-container">
-    <p-table [lazy]="true" (onLazyLoad)="getAllProductbyId($event)" [value]="productList"
+    <p-table [lazy]="true" (onLazyLoad)="getAllProductbyId($event)" [value]="productList" dataKey="id" editMode="row"
         [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="30" [loading]="loading"
         [totalRecords]="totalRecords">
         <ng-template #header>
@@ -7,15 +7,101 @@
                 <th>Name</th>
                 <th>Category</th>
                 <th>Expiry Date</th>
+                <th>Open Date</th>
+                <th>Number Of Days</th>
+                <th></th>
 
             </tr>
         </ng-template>
-        <ng-template #body let-productList>
-            <tr>
-                <td>{{ productList.product_name }}</td>
-                <td>{{ productList.category }}</td>
-                <td>{{ productList.expiry_date |date }}</td>
+        <ng-template #body let-product>
+            <tr [pEditableRow]="product">
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template #input>
+                            
+                            <input pInputText type="text" [(ngModel)]="product.product_name" />
+                        </ng-template>
+                        <ng-template #output>
+                            {{ product.product_name }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template #input>
+                            <p-select [options]="categories" [(ngModel)]="product.category" 
+                                optionLabel="category_name" optionValue="id" 
+                                appendTo="body" class="full-width" (onChange)="onCategoryChange($event)">
+                            </p-select>
+                        </ng-template>
+                        <ng-template #output>
+                            {{ product.category }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template #input>
+                            <p-datePicker [(ngModel)]="product.expiry_date"  dateFormat="M dd,yy"
+                                showIcon="true"></p-datePicker>
+                        </ng-template>
+                        <ng-template #output>
+                            {{ product.expiry_date|date }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template #input>
+                            <p-datePicker [(ngModel)]="product.open_date"  dateFormat="M dd,yy"
+                                showIcon="true"></p-datePicker>
+                        </ng-template>
+                        <ng-template #output>
+                            {{ product.open_date | date}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template #input>
+                            <input pInputText type="number" [(ngModel)]="product.numberofdays" />
+                        </ng-template>
+                        <ng-template #output>
+                            {{ product.numberofdays }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                    <div class="flex items-center justify-center gap-2">
+                        <button *ngIf="editingRow?.id !== product.id" pButton pRipple type="button" pInitEditableRow
+                            icon="pi pi-pencil" (click)="onRowEditInit(product)"
+                            class="p-button-text p-button-rounded p-button-secondary">
+                        </button>
+
+                        <!-- Save / Cancel Buttons -->
+                        <button *ngIf="editingRow?.id === product.id" pButton pRipple type="button" pSaveEditableRow
+                            icon="pi pi-check" (click)="onRowEditSave(product)"
+                            class="p-button-text p-button-rounded p-button-success">
+                        </button>
+
+                        <button *ngIf="editingRow?.id === product.id" pButton pRipple type="button" pCancelEditableRow
+                            icon="pi pi-times" (click)="onRowEditCancel(product)"
+                            class="p-button-text p-button-rounded p-button-warning">
+                        </button>
+
+                        <!-- Delete button -->
+                        <button *ngIf="editingRow?.id !== product.id" pButton pRipple type="button" icon="pi pi-trash"
+                            (click)="deleteRow(product)" class="p-button-text p-button-rounded p-button-danger">
+                        </button>
+
+
+                    </div>
+
+                </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
+
+
+<p-toast></p-toast>

@@ -35,7 +35,7 @@ public class ProductService
              ? p.open_date.Value.AddDays(p.numberofdays)
              : p.expiry_date
      }
-        ).ToListAsync();
+        ).Where(p=>p.IsDelete==false).ToListAsync();
 
         var now = DateTime.Now;
 

@@ -5,17 +5,20 @@ import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
-import Lara from '@primeng/themes/lara';
+import Lara from '@primeuix/themes/lara';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { MessageService } from 'primeng/api';
 
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(FormsModule),
      provideRouter(routes),
-     providePrimeNG({
+    providePrimeNG({
       theme: {
         preset: Lara
       }
-    })
-   
+    }),
+     provideAnimations(),  // required for PrimeNG
+    MessageService
   ]
 });

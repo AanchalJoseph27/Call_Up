@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Product } from '../modules/productModule';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,10 @@ export class UserService {
   expproductapiUrl = 'https://localhost:7091/api/users/productexp';//email
   expproductapiUrl1 = 'https://localhost:7091/api/users/productexp1';
   categoryapiUrl = 'https://localhost:7091/api/users/category';
+  deleteproductUrl = 'https://localhost:7091/api/users/DeleteProduct';
+  updateproductapiUrl = 'https://localhost:7091/api/users/UpdateProduct';
+
+
 
   constructor(private http: HttpClient) {
     this.getUsers();
@@ -67,6 +72,14 @@ export class UserService {
 }
  getExpProductbyId1(Id: any): Observable<any[]> {
   return this.http.get<any[]>(`${this.expproductapiUrl1}/${Id}`);
+}
+
+deleteProduct(Id:any){
+  return this.http.delete(`${this.deleteproductUrl}/${Id}`);
+}
+updateProduct(product:Product){
+   return this.http.put(`${this.updateproductapiUrl}/${product.id}`, product);
+
 }
 
 //logout

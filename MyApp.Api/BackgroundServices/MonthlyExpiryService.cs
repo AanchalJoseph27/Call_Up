@@ -21,7 +21,7 @@ public class MonthlyExpiryService : BackgroundService
         Console.WriteLine("Service running at: " + DateTime.Now);
         while (!stoppingToken.IsCancellationRequested)
         {
-            //var now = DateTime.Now;
+            var now = DateTime.Now;
             //if (true)//TESTING
             if (now.Day == 1) // Run only on first day of month
             {

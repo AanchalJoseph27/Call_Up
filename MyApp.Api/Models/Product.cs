@@ -10,6 +10,7 @@ namespace MyApp.Api.Models
         public DateTime? open_date { get; set; }
         public int numberofdays { get; set; }
         public DateTime? created_at { get; set; }
+        public bool IsDelete { get; set; }
 
     }
 }

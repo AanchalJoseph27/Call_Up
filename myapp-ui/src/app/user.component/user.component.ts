@@ -43,7 +43,6 @@ export class UserComponent implements OnInit {
 
     const loginResult = this.userService.loginUser(login).subscribe({
       next: (response) => {
-        debugger
         this.data = response;
         this.processData(this.data);
         console.log(this.data)
@@ -53,9 +52,10 @@ export class UserComponent implements OnInit {
   }
 
   processData(data: any) {
+    debugger
     if (data != null) {
       // this.userService.loginUserId = data.id;
-      localStorage.setItem('token', data.token);
+      sessionStorage.setItem('token', data.token);
       sessionStorage.setItem("loginUserId", data.user.id);
       sessionStorage.setItem("loginUserName", data.user.name);
       this.router.navigate(['/product']);

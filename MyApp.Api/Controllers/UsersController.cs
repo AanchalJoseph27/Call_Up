@@ -146,7 +146,7 @@ var claims = new[]
             from p in _context.Products
             join c in _context.Categories
                 on p.category_id equals c.id
-            where p.user_id == userId
+            where p.user_id == userId && p.IsDelete == false
             select new
             {
                 p.id,
@@ -156,7 +156,7 @@ var claims = new[]
                 Category = c.category_name,
                 p.expiry_date,
                 p.open_date,
-                p.numberofdays
+                p.numberofdays,p.IsDelete
             }
         ).ToListAsync();
 
@@ -167,7 +167,7 @@ var claims = new[]
     public async Task<IActionResult> GetAllProductExpByUserId(int userId)
     {
         var expproduct = await _productService.GetExpiringProducts();
-        var explist = expproduct.Where(exp => exp.user_id == userId).ToList();
+        var explist = expproduct.Where(exp => exp.user_id == userId ).ToList();
         return Ok(explist);
     }
 
@@ -192,7 +192,7 @@ var claims = new[]
              ? p.open_date.Value.AddDays(p.numberofdays)
              : p.expiry_date
      }
-        ).ToListAsync();
+        ).Where(p=>p.IsDelete==false).ToListAsync();
 
         var currentDate = DateTime.Now;
 
@@ -222,4 +222,63 @@ var claims = new[]
     {
         return Ok(_context.Categories.ToList());
     }
+
+
+    //UPDATE
+    
+     [HttpPut("UpdateProduct/{id}")]
+public async Task<IActionResult> UpdateProduct(int id, Product updatedProduct)
+{
+    if (id != updatedProduct.id)
+    {
+        return BadRequest(new { message = "Product ID mismatch" });
+            Console.WriteLine("Product ID mismatch");
+
+        }
+
+        var product = await _context.Products.FindAsync(id);
+
+    if (product == null || product.IsDelete)
+    {
+        return NotFound(new { message = "Product not found" });
+            Console.WriteLine("Product not found");
+
+        }
+
+        // Update fields
+        product.product_name=updatedProduct.product_name;
+    product.expiry_date= updatedProduct.expiry_date;
+    product.numberofdays=updatedProduct.numberofdays;
+    product.open_date= updatedProduct.open_date;
+    product.category_id=updatedProduct.category_id;
+
+    await _context.SaveChangesAsync();
+
+    return Ok(new { message = "Product updated successfully" });
+        Console.WriteLine("Product updated successfully");
+
+    }
+
+
+    //DELETE
+
+    [HttpDelete("DeleteProduct/{id}")]
+public async Task<IActionResult> DeleteProduct(int id)
+{
+    var product = await _context.Products.FindAsync(id);
+
+    if (product == null)
+    {
+        return NotFound(new { message = "Product not found" });
+            Console.WriteLine("Product not found");
+        }
+
+    product.IsDelete = true;
+
+    await _context.SaveChangesAsync();
+        return Ok(new { message = "Product deleted successfully" });
+        Console.WriteLine("Product deleted successfully");
+
+    }
+
 }

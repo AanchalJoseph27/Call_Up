@@ -11,8 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddHostedService<MonthlyExpiryService>();
 builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<SmsService>();
-builder.Services.AddHostedService<MonthlySmsReminderService>();
+//builder.Services.AddScoped<SmsService>();
+//builder.Services.AddHostedService<MonthlySmsReminderService>();
 
 // 🔹 Add DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
