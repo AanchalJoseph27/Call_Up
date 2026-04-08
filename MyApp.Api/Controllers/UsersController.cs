@@ -66,7 +66,7 @@ public class UsersController : ControllerBase
     public IActionResult Login([FromBody] User model)
     {
         var user = _context.Users
-            .FirstOrDefault(u => u.email == model.email && u.password == model.password);
+            .FirstOrDefault(u => u.email == model.email && u.password == model.password && u.IsDeleted==false);
 
         if (user == null)
         {
@@ -146,17 +146,21 @@ var claims = new[]
             from p in _context.Products
             join c in _context.Categories
                 on p.category_id equals c.id
-            where p.user_id == userId && p.IsDelete == false
+            where p.user_id == userId && p.IsDeleted == false
             select new
             {
                 p.id,
                 p.user_id,
                 p.product_name,
                 p.category_id,
-                Category = c.category_name,
+                Category = new
+                {
+                    c.id,
+                    c.category_name
+                },
                 p.expiry_date,
                 p.open_date,
-                p.numberofdays,p.IsDelete
+                p.numberofdays,p.IsDeleted
             }
         ).ToListAsync();
 
@@ -179,6 +183,7 @@ var claims = new[]
      from p in _context.Products
      join c in _context.Categories
          on p.category_id equals c.id
+         where p.IsDeleted==false
      select new ProductExp
      {
          id = p.id,
@@ -192,7 +197,7 @@ var claims = new[]
              ? p.open_date.Value.AddDays(p.numberofdays)
              : p.expiry_date
      }
-        ).Where(p=>p.IsDelete==false).ToListAsync();
+        ).ToListAsync();
 
         var currentDate = DateTime.Now;
 
@@ -212,7 +217,9 @@ var claims = new[]
     [HttpPost("category")]
     public async Task<IActionResult> Create([FromBody] Category category)
     {
+        Console.WriteLine(category.category_name);
         _context.Categories.Add(category);
+
         await _context.SaveChangesAsync();
         return Ok(category);
     }
@@ -223,10 +230,19 @@ var claims = new[]
         return Ok(_context.Categories.ToList());
     }
 
+    [HttpGet("CategoryById/{userId}")]
+    public IActionResult GetAllCategoryById(int userId)
+    {
+        var categoryList=_context.Categories.Where(c=>c.user_id == userId || c.user_id== 1 && c.IsDeleted == false) .ToList();
+        return Ok(categoryList);
+    }
+
+
+
 
     //UPDATE
-    
-     [HttpPut("UpdateProduct/{id}")]
+
+    [HttpPut("UpdateProduct/{id}")]
 public async Task<IActionResult> UpdateProduct(int id, Product updatedProduct)
 {
     if (id != updatedProduct.id)
@@ -238,7 +254,7 @@ public async Task<IActionResult> UpdateProduct(int id, Product updatedProduct)
 
         var product = await _context.Products.FindAsync(id);
 
-    if (product == null || product.IsDelete)
+    if (product == null || product.IsDeleted)
     {
         return NotFound(new { message = "Product not found" });
             Console.WriteLine("Product not found");
@@ -273,11 +289,28 @@ public async Task<IActionResult> DeleteProduct(int id)
             Console.WriteLine("Product not found");
         }
 
-    product.IsDelete = true;
+    product.IsDeleted = true;
 
     await _context.SaveChangesAsync();
         return Ok(new { message = "Product deleted successfully" });
         Console.WriteLine("Product deleted successfully");
+
+    }
+
+
+
+    //DELETE ACCOUNT
+
+    [HttpDelete("DeleteAccount/{id}")]
+    public async Task<IActionResult> DeleteAccount(int id)
+    {
+        var user = await _context.Users.FindAsync(id);
+
+        user.IsDeleted = true;
+
+        await _context.SaveChangesAsync();
+        return Ok(new { message = "Account deleted successfully" });
+        Console.WriteLine("Account deleted successfully");
 
     }
 

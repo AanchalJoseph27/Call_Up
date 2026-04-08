@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../modules/productModule';
+import { Category } from '../modules/categoryModule';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,10 @@ export class UserService {
   categoryapiUrl = 'https://localhost:7091/api/users/category';
   deleteproductUrl = 'https://localhost:7091/api/users/DeleteProduct';
   updateproductapiUrl = 'https://localhost:7091/api/users/UpdateProduct';
+  deleteAccountUrl = 'https://localhost:7091/api/users/DeleteAccount';
+  categorybyidapiUrl = 'https://localhost:7091/api/users/CategoryById';
+
+
 
 
 
@@ -51,26 +56,30 @@ export class UserService {
   createCategory(category:any){
     return this.http.post(this.categoryapiUrl, category);
   }
-  GetAllCategory(){
-    return this.http.get(this.categoryapiUrl);
+  
+  GetAllCategory(): Observable<Category[]> {
+  return this.http.get<Category[]>(this.categoryapiUrl);
+}
 
-  }
+GetAllCategoryById(Id: any): Observable<Category[]> {
+  return this.http.get<Category[]>(`${this.categorybyidapiUrl}/${Id}`);
+}
   //product
-   createProduct(product:any){
+   createProduct(product:Product){
     //debugger
     return this.http.post(this.productapiUrl, product);
   }
   getProdect(){
     return this.http.get(this.productapiUrl);
   }
- getProductbyId(Id: any): Observable<any[]> {
+ getProductbyId(Id: any): Observable<Product[]> {
   return this.http.get<any[]>(`${this.productapiUrl}/${Id}`);
 }
 
  getExpProductbyId(Id: any) {
   return this.http.get(`${this.expproductapiUrl}/${Id}`);
 }
- getExpProductbyId1(Id: any): Observable<any[]> {
+ getExpProductbyId1(Id: any): Observable<Product[]> {
   return this.http.get<any[]>(`${this.expproductapiUrl1}/${Id}`);
 }
 
@@ -82,9 +91,9 @@ updateProduct(product:Product){
 
 }
 
-//logout
+deleteAccount(Id:any){
+  debugger
 
-// clearProducts(){
-//    this.productsSubject.next([]); 
-// }
+  return this.http.delete(`${this.deleteAccountUrl}/${Id}`);
+}
 }

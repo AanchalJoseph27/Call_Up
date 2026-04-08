@@ -16,3 +16,37 @@
   align-items: center;
   z-index: 9999;
 }
+
+/* Center card */
+.product-container {
+  width: 100%;
+  max-width: 500px;
+}
+
+
+.custom-card {
+  width: 400px;
+}
+
+
+/* Each field */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Full width inputs */
+.full-width {
+  width: 100%;
+}
+
+/* Button spacing */
+.button-field {
+  margin-top: 10px;
+}
+
+/* Label styling */
+label {
+  font-weight: 500;
+}

@@ -1,6 +1,6 @@
 using System.Net;
 using System.Net.Mail;
-using MyApp.Api.Models;   // adjust based on your project
+using MyApp.Api.Models;  
 
 public class EmailService
 {
@@ -47,7 +47,7 @@ public class EmailService
         {
             var toEmail = group.Key;
 
-            // ✅ Skip if email is null or empty
+            //  Skip if email is null or empty
             if (string.IsNullOrWhiteSpace(toEmail))
             {
                 continue;
@@ -64,4 +64,12 @@ public class EmailService
             await SendEmailAsync(toEmail, subject, body);
         }
     }
+
+    //public async Task SendNoExpiryMail()
+    //{
+    //    var subject = "Product Expiry Report";
+    //    var body = "There are no products expiring in the upcoming period.";
+
+    //    await SendEmailAsync(toEmail, subject, body);
+    //}
 }

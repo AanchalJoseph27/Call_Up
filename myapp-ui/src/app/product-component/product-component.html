@@ -27,13 +27,14 @@
         <p-select
           id="productCategory"
           [options]="categories"
-          [(ngModel)]="product_category"
+          [(ngModel)]="category_id"
           name="productCategory"
           optionLabel="category_name"
           optionValue="id"
           placeholder="Select category"
           appendTo="body"
           class="full-width"
+          (onClick)="onCategoryChange($event)"
           (onChange)="onCategoryChange($event)"
           >
         </p-select>
@@ -69,11 +70,14 @@
       <div class="field">
         <label >Number of Days</label>
         <input
-          id="number_of_days"
+          id="numberofdays
+"
           type="number"
           pInputText
-          [(ngModel)]="number_of_days"
-          name="number_of_days"
+          [(ngModel)]="numberofdays
+"
+          name="numberofdays
+"
           min="0"
           required
           placeholder="Enter days after open"

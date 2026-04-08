@@ -7,5 +7,7 @@ namespace MyApp.Api.Models
         public string? email { get; set; }
         public string? phonenumber { get; set; }
         public string? password { get; set; }
+        public bool IsDeleted { get; set; }
+
     }
 }

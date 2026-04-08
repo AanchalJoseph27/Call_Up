@@ -22,8 +22,8 @@ public class MonthlyExpiryService : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             var now = DateTime.Now;
-            //if (true)//TESTING
-            if (now.Day == 1) // Run only on first day of month
+            if (true)//TESTING
+            //if (now.Day == 1) // Run only on first day of month
             {
                 using (var scope = _serviceProvider.CreateScope())
                 {
@@ -50,13 +50,27 @@ public class MonthlyExpiryService : BackgroundService
                     else
                     {
                         Console.WriteLine("No products to send");
+
+                        //var emailService = scope.ServiceProvider.GetRequiredService<EmailService>();
+
+                        //try
+                        //{
+                        //    Console.WriteLine("Sending no-expiry email...");
+                        //    await emailService.SendNoExpiryMail(); 
+                        //    Console.WriteLine("No-expiry email sent successfully");
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    Console.WriteLine("No-expiry email failed: " + ex.Message);
+                        //}
                     }
                 }
             }
 
-            // Check once every 24 hours
-            await Task.Delay(TimeSpan.FromHours(24), stoppingToken);
-            //await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);//TESTING
+            
+           // await Task.Delay(TimeSpan.FromHours(24), stoppingToken);// Check once every 24 hours
+            await Task.Delay(TimeSpan.FromMinutes(10), stoppingToken);//TESTING
+            //await Task.Delay(TimeSpan.FromDays(7), stoppingToken); // Check once every 7 Days
 
             Console.WriteLine("MonthlyExpiryService running at: " + DateTime.Now);
         }

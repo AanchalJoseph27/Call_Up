@@ -19,6 +19,7 @@ public class ProductService
             on p.category_id equals c.id
         join u in _context.Users
             on p.user_id equals u.id
+        where p.IsDeleted == false
         select new ProductExp
         {
          id = p.id,
@@ -35,7 +36,7 @@ public class ProductService
              ? p.open_date.Value.AddDays(p.numberofdays)
              : p.expiry_date
      }
-        ).Where(p=>p.IsDelete==false).ToListAsync();
+        ).ToListAsync();
 
         var now = DateTime.Now;
 
@@ -43,7 +44,7 @@ public class ProductService
             .Where(ap => ap.expiry_date?.Month == now.Month &&
                          ap.expiry_date?.Year == now.Year)
             .ToList();
-
-        return expproduct;
+        //var noexpproductsmailid = products.Where(p => p.id != expproduct.id).ToList();
+        return expproduct ;
     }
 }

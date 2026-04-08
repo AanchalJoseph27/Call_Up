@@ -9,6 +9,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DatePickerModule } from 'primeng/datepicker';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { Product } from '../modules/productModule';
+import { Category } from '../modules/categoryModule';
 
 @Component({
   selector: 'app-product-component',
@@ -30,18 +32,20 @@ import { UserService } from '../services/user.service';
 
 export class ProductComponent implements OnInit {
   product_name?: string;
-  product_category: number | null = null;
+  product_category: any;
   customCategory?: string;
   // product_subcategory?: string;
-  expiry_date : Date | null=null;
+  expiry_date: Date | null = null;
   open_date: Date | null = null;
   userId: any;
-  number_of_days = 0;
+  numberofdays
+    = 0;
   category_id?: number | null = null;
-  categories: any;
-  products: any[] = [];
+  categories: Category[] = [];
+  products: Product[] = [];
   showDialog: boolean = false;
   temp_product_category?: any;
+  tempCategoryList?: any;
   loginUserId: any;
   loginUserName: any;
   productList: any;
@@ -60,15 +64,17 @@ export class ProductComponent implements OnInit {
   }
 
   getAllCategories() {
-    this.userService.GetAllCategory().subscribe(data => {
+    this.userService.GetAllCategoryById(this.loginUserId).subscribe((data: Category[]) => {
       this.categories = data;
-      console.log(this.categories);
 
       this.categories.push({
         id: 0,
-        category_name: 'Others'
+        category_name: 'Others',
+        user_id: this.loginUserId
       });
+      console.log(this.categories);
     });
+    return (this.categories);
   }
 
   getAllProductbyId() {
@@ -79,12 +85,14 @@ export class ProductComponent implements OnInit {
   }
 
   Submit() {
-    //debugger
-    this.category_id = this.product_category
+    debugger
+    // this.category_id = this.product_category
+    const product: Omit<Product, 'id'> = {
+      user_id: this.loginUserId, product_name: this.product_name, category_id: this.category_id, expiry_date: this.expiry_date!, open_date: this.open_date!, numberofdays
+        : this.numberofdays
+        ?? 0
+    };
 
-    console.log(this.loginUserId, this.product_name, this.category_id, this.expiry_date?.toISOString().split('T')[0], this.open_date?.toISOString().split('T')[0], this.number_of_days)
-
-    const product = { user_id: this.loginUserId, product_name: this.product_name, category_id: this.category_id, expiry_date: this.expiry_date?.toISOString().split('T')[0], open_date: this.open_date?.toISOString().split('T')[0], numberofdays: this.number_of_days };
     this.userService.createProduct(product).subscribe({
       next: res => {
         console.log('Saved!', res)
@@ -97,33 +105,47 @@ export class ProductComponent implements OnInit {
   }
 
   submitCustomCategory() {
-    // //debugger
-    const category = { category_name: this.customCategory };
+    debugger
+    const category = { category_name: this.customCategory, user_id: this.loginUserId };
     this.userService.createCategory(category).subscribe({
       next: (res) => {
         this.temp_product_category = res;
         console.log(this.temp_product_category.id);
-        this.product_category = this.temp_product_category.id;
-        this.category_id = this.temp_product_category.id;
-        this.getAllCategories();
+        this.product_category = this.temp_product_category;
+        if (this.temp_product_category) {
+          this.tempCategoryList = this.getAllCategories();
+          this.tempCategoryList.push(this.temp_product_category);
+          this.tempCategoryList.forEach((item:Category) => {
+            if (item.id === this.temp_product_category.id) {
+              this.category_id = item.id;
+            }
+          });
+
+        }
+
       },
       error: err => console.error('Error', err)
     });
+
+
+
     this.showDialog = false;
+this.customCategory="";
+
   }
 
   onCategoryChange(event: any) {
-    //debugger
+    debugger
     console.log(event.value);
     this.category_id = event.value
     if (event.value === 0) {
       this.showDialog = true;
     }
   }
-  hideDialog(){
-      this.product_category= null;
+  hideDialog() {
+    this.product_category = null;
 
   }
 
-  
+
 }
