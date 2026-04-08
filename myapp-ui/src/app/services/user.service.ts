@@ -11,9 +11,9 @@ export class UserService {
 
   public loginUserId: any;
 
-//   private productsSubject = new BehaviorSubject<any[]>([]);
-// products$ = this.productsSubject.asObservable();
-    
+  //   private productsSubject = new BehaviorSubject<any[]>([]);
+  // products$ = this.productsSubject.asObservable();
+
   apiUrl = 'https://localhost:7091/api/users';
   registerapiUrl = 'https://localhost:7091/api/users/register';
   loginapiUrl = 'https://localhost:7091/api/users/login';
@@ -42,58 +42,53 @@ export class UserService {
   getUsers() {
     return this.http.get(this.apiUrl);
   }
-  getUsersbyId(Id:any) {
-    return this.http.get(this.apiUrl,Id);
+  getUsersbyId(Id: any) {
+    return this.http.get(this.apiUrl, Id);
   }
 
-  loginUser(login:any){
-    // //debugger
+  loginUser(login: any) {
     return this.http.post(this.loginapiUrl, login);
-    // //debugger
 
   }
   //category
-  createCategory(category:any){
+  createCategory(category: any) {
     return this.http.post(this.categoryapiUrl, category);
   }
-  
-  GetAllCategory(): Observable<Category[]> {
-  return this.http.get<Category[]>(this.categoryapiUrl);
-}
 
-GetAllCategoryById(Id: any): Observable<Category[]> {
-  return this.http.get<Category[]>(`${this.categorybyidapiUrl}/${Id}`);
-}
+  GetAllCategory(): Observable<Category[]> {
+    return this.http.get<Category[]>(this.categoryapiUrl);
+  }
+
+  GetAllCategoryById(Id: any): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.categorybyidapiUrl}/${Id}`);
+  }
   //product
-   createProduct(product:Product){
-    //debugger
+  createProduct(product: Product) {
     return this.http.post(this.productapiUrl, product);
   }
-  getProdect(){
+  getProdect() {
     return this.http.get(this.productapiUrl);
   }
- getProductbyId(Id: any): Observable<Product[]> {
-  return this.http.get<any[]>(`${this.productapiUrl}/${Id}`);
-}
+  getProductbyId(Id: any): Observable<Product[]> {
+    return this.http.get<any[]>(`${this.productapiUrl}/${Id}`);
+  }
 
- getExpProductbyId(Id: any) {
-  return this.http.get(`${this.expproductapiUrl}/${Id}`);
-}
- getExpProductbyId1(Id: any): Observable<Product[]> {
-  return this.http.get<any[]>(`${this.expproductapiUrl1}/${Id}`);
-}
+  getExpProductbyId(Id: any) {
+    return this.http.get(`${this.expproductapiUrl}/${Id}`);
+  }
+  getExpProductbyId1(Id: any): Observable<Product[]> {
+    return this.http.get<any[]>(`${this.expproductapiUrl1}/${Id}`);
+  }
 
-deleteProduct(Id:any){
-  return this.http.delete(`${this.deleteproductUrl}/${Id}`);
-}
-updateProduct(product:Product){
-   return this.http.put(`${this.updateproductapiUrl}/${product.id}`, product);
+  deleteProduct(Id: any) {
+    return this.http.delete(`${this.deleteproductUrl}/${Id}`);
+  }
+  updateProduct(product: Product) {
+    return this.http.put(`${this.updateproductapiUrl}/${product.id}`, product);
 
-}
+  }
 
-deleteAccount(Id:any){
-  debugger
-
-  return this.http.delete(`${this.deleteAccountUrl}/${Id}`);
-}
+  deleteAccount(Id: any) {
+    return this.http.delete(`${this.deleteAccountUrl}/${Id}`);
+  }
 }

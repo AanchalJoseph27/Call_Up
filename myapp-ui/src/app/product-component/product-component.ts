@@ -34,7 +34,6 @@ export class ProductComponent implements OnInit {
   product_name?: string;
   product_category: any;
   customCategory?: string;
-  // product_subcategory?: string;
   expiry_date: Date | null = null;
   open_date: Date | null = null;
   userId: any;
@@ -60,7 +59,6 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     this.getAllCategories();
-    // this.getAllProductbyId();
   }
 
   getAllCategories() {
@@ -85,8 +83,6 @@ export class ProductComponent implements OnInit {
   }
 
   Submit() {
-    debugger
-    // this.category_id = this.product_category
     const product: Omit<Product, 'id'> = {
       user_id: this.loginUserId, product_name: this.product_name, category_id: this.category_id, expiry_date: this.expiry_date!, open_date: this.open_date!, numberofdays
         : this.numberofdays
@@ -105,7 +101,6 @@ export class ProductComponent implements OnInit {
   }
 
   submitCustomCategory() {
-    debugger
     const category = { category_name: this.customCategory, user_id: this.loginUserId };
     this.userService.createCategory(category).subscribe({
       next: (res) => {
@@ -115,7 +110,7 @@ export class ProductComponent implements OnInit {
         if (this.temp_product_category) {
           this.tempCategoryList = this.getAllCategories();
           this.tempCategoryList.push(this.temp_product_category);
-          this.tempCategoryList.forEach((item:Category) => {
+          this.tempCategoryList.forEach((item: Category) => {
             if (item.id === this.temp_product_category.id) {
               this.category_id = item.id;
             }
@@ -126,16 +121,12 @@ export class ProductComponent implements OnInit {
       },
       error: err => console.error('Error', err)
     });
-
-
-
     this.showDialog = false;
-this.customCategory="";
+    this.customCategory = "";
 
   }
 
   onCategoryChange(event: any) {
-    debugger
     console.log(event.value);
     this.category_id = event.value
     if (event.value === 0) {

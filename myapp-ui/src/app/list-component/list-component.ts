@@ -50,8 +50,6 @@ export class ListComponent implements OnInit {
   loading: boolean = false;
   totalRecords: number = 0;
   editingRow: Product | null = null;
-  // editingRow: any;
-  //  targetExpDate:Date | null=null;
   categories: Category[] = [];
   category_id?: number | null = null;
 editrow:any=null;
@@ -80,13 +78,11 @@ editProduct: any = {};
         category_name: 'Others',
         user_id: this.loginUserId
       });
-      // console.log(this.categories);
 
     });
   }
 
   onCategoryChange(event: any) {
-    //debugger
     console.log(event.value);
     this.category_id = event.value
     if (event.value === 0) {
@@ -118,18 +114,9 @@ editProduct: any = {};
     });
   }
   onRowEditInit(row: any) {
-    debugger
      this.editingRow = row;
   this.editProduct = { ...row };  
   this.showDialogProduct = true;
-
-
-
-  //    if (this.editingRow && this.editingRow.id !== row.id) {
-  //   this.onRowEditCancel(this.editingRow);
-  // }
-  //   this.editingRow = {...row};
-
     if (this.editProduct?.id != null)
     {
       if (this.editProduct?.expiry_date)
@@ -149,18 +136,16 @@ editProduct: any = {};
   }
 
   onRowEditSave(row: any) {
-    this.loading = true; // show loader if needed
+    this.loading = true; 
 
     this.userService.updateProduct(row).subscribe({
       next: (res: any) => {
-        // Show success toast
         this.messageService.add({
           severity: 'success',
           summary: 'Updated',
           detail: `Product ${row.product_name} updated successfully`
         });
 
-        // Reload table data
         this.getAllProductbyId(row.id);
 
         this.loading = false;
@@ -168,7 +153,6 @@ editProduct: any = {};
       error: () => {
         this.loading = false;
 
-        // Show error toast
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -177,15 +161,11 @@ editProduct: any = {};
       }
     });
 
-    // Clear editing state
     this.showDialogProduct = false;
   this.editProduct = {};
   this.editingRow = null;
   }
 
-  // onRowEditCancel(row: any) {
-  //   this.editingRow = null; // Revert changes if needed
-  // }
 
   deleteRow(row: any) {
     console.log(row);
