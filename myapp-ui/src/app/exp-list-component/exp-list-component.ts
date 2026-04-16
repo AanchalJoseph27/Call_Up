@@ -6,7 +6,7 @@ import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-exp-list-component',
-  imports: [CommonModule,TableModule],
+  imports: [CommonModule, TableModule],
   templateUrl: './exp-list-component.html',
   styleUrl: './exp-list-component.css',
   standalone: true,

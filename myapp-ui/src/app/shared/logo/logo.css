@@ -1,0 +1,16 @@
+/* logo.component.css */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  height: 40px;
+  width: auto;
+}
+
+.app-name {
+  font-size: 20px;
+  font-weight: bold;
+}

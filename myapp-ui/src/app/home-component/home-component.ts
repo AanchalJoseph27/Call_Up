@@ -8,11 +8,15 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { Logo } from "../shared/logo/logo";
+import { CallupLogo } from "../shared/callup-logo/callup-logo";
 @Component({
     selector: 'app-home-component',
     imports: [
-        CommonModule, MenubarModule, RouterModule, ConfirmDialogModule
-    ],
+    CommonModule, MenubarModule, RouterModule, ConfirmDialogModule,
+    Logo,
+    CallupLogo
+],
     providers: [ConfirmationService],
     templateUrl: './home-component.html',
     styleUrl: './home-component.css',
