@@ -7,7 +7,7 @@
     <h2>Login</h2>
     <form>
       <input name="user_name" [(ngModel)]="user_name" placeholder="Email" required><br><br>
-      <input name="password" [(ngModel)]="password" placeholder="Password" required><br><br>
+      <input name="password" [(ngModel)]="password" type="password" placeholder="Password" required><br><br>
       <button name="Login" (click)="login()">Login</button>
     </form>
     <br><br>
@@ -53,7 +53,7 @@
       <br><br>
 
       <!-- Password -->
-      <input type="password" name="password" placeholder="Password" [(ngModel)]="password" #passwordRef="ngModel"
+      <input type="password" name="password" placeholder="Password" type="password" [(ngModel)]="password" #passwordRef="ngModel"
         required minlength="6">
 
       @if (passwordRef.invalid && passwordRef.touched) {

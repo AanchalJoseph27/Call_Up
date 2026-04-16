@@ -32,10 +32,12 @@ public class ProductService
          category_name = c.category_name,
          open_date = p.open_date,
          numberofdays = p.numberofdays,
-         expiry_date = p.open_date != null && p.numberofdays != 0
-             ? p.open_date.Value.AddDays(p.numberofdays)
-             : p.expiry_date
-     }
+            expiry_date = (p.open_date != null && p.numberofdays != 0
+                ? p.open_date.Value.AddDays(p.numberofdays)
+                : (DateTime?)null) < p.expiry_date
+                    ? p.open_date.Value.AddDays(p.numberofdays)
+                    : p.expiry_date
+        }
         ).ToListAsync();
 
         var now = DateTime.Now;

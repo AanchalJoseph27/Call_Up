@@ -34,25 +34,39 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> Register(User model)
     {
         var existingUser = await _context.Users
-            .FirstOrDefaultAsync(u => u.email == model.email);
+            .FirstOrDefaultAsync(u =>
+                (u.email == model.email || u.phonenumber == model.phonenumber)
+                && u.IsDeleted == false);
 
         if (existingUser != null)
         {
-            return BadRequest("Email already registered.");
-        }
+            Console.WriteLine(existingUser);
 
-        //model.CreatedDate = DateTime.Now;
+            return BadRequest(new
+            {
+                message = "Email or phone already registered.",
+                data = existingUser
+            });
+        }
 
         _context.Users.Add(model);
         await _context.SaveChangesAsync();
 
         await _emailService.SendEmailAsync(
-    model.email!,
-    "Registration Successful",
-    $"<h3>Welcome</h3><h2>Hello {model.name}</h2><p>Your account was created successfully.</p>"
-);
-        return Ok("User registered successfully.");
+            model.email!,
+            "Registration Successful",
+            $"<h3>Welcome</h3><h2>Hello {model.name}</h2><p>Your account was created successfully.</p>"
+        );
+
+        return Ok(new
+        {
+            message = "User registered successfully.",
+            data = model
+        });
     }
+
+
+
 
     [HttpGet]
     public IActionResult GetAll()
@@ -73,7 +87,7 @@ public class UsersController : ControllerBase
             return BadRequest("User does not exist!");
         }
 
-        // 🔐 Create token
+        //  Create token
         var keyString = _configuration["Jwt:Key"];
 
         if (string.IsNullOrEmpty(keyString))
@@ -109,7 +123,7 @@ var claims = new[]
 
         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-        // ✅ Return token
+        //  Return token
         return Ok(new
         {
             token = tokenString,
@@ -193,9 +207,11 @@ var claims = new[]
          category_name = c.category_name,
          open_date = p.open_date,
          numberofdays = p.numberofdays,
-         expiry_date = p.open_date != null && p.numberofdays != 0
-             ? p.open_date.Value.AddDays(p.numberofdays)
-             : p.expiry_date
+         expiry_date = (p.open_date != null && p.numberofdays != 0
+                ? p.open_date.Value.AddDays(p.numberofdays)
+                : (DateTime?)null) < p.expiry_date
+                    ? p.open_date.Value.AddDays(p.numberofdays)
+                    : p.expiry_date
      }
         ).ToListAsync();
 

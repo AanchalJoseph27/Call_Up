@@ -40,9 +40,6 @@ export class ExpListComponent {
       this.totalRecords = res.length;
       this.loading = false;
     });
-      // this.exp_productList = res;       // adjust based on API
-      // this.totalRecords = res.length;
-      // this.loading = false;
     },
     error: () => {
       this.loading = false;

@@ -65,13 +65,59 @@ export class UserComponent implements OnInit {
     this.isLogin = !this.isLogin;
   }
 
-  saveUser() {
-    const user = { name: this.full_name, email: this.email_id, password: this.password, phonenumber:this.phonenumber};
-    this.userService.createUser(user).subscribe({
-      next: res => console.log('Saved!', res),
-      error: err => console.error('Error', err)
-    });
-    this.isLogin = !this.isLogin;
+  // saveUser() {
+  //   const user = { name: this.full_name, email: this.email_id, password: this.password, phonenumber:this.phonenumber};
+  //   this.userService.createUser(user).subscribe({
+  //     next: res => console.log('Saved!', res),
+  //     error: err => console.error('Error', err),
+  //   });
 
-  }
+  //   this.isLogin = !this.isLogin;
+
+  // }
+
+  saveUser() {
+  const user = {
+    name: this.full_name,
+    email: this.email_id,
+    password: this.password,
+    phonenumber: this.phonenumber
+  };
+
+  this.userService.createUser(user).subscribe({
+    next: (res: any) => {
+      // ✅ Success condition
+      if (res) {
+        console.log('Saved!', res);
+
+        // Example: show success message
+        alert('User registered successfully');
+       this.email='';
+       this.password='';
+          this.isLogin = !this.isLogin;
+
+
+      }
+    },
+
+    error: (err) => {
+      // ❌ Error condition
+      console.error('Error', err);
+
+      if (err.status === 400) {
+        // Backend BadRequest (like "Email already registered")
+        // if(err.error?.data)
+        // {}
+        const message = err.error?.message || 'Something went wrong';
+        alert(message);
+        // const existingUser = err.error?.data;
+        // if (existingUser) {
+        //   console.log('Existing user:', existingUser);
+        // }
+      } else {
+        alert('Server error, please try again later');
+      }
+    }
+  });
+}
 }
