@@ -25,6 +25,7 @@ export class UserService {
   updateproductapiUrl = 'https://localhost:7091/api/users/UpdateProduct';
   deleteAccountUrl = 'https://localhost:7091/api/users/DeleteAccount';
   categorybyidapiUrl = 'https://localhost:7091/api/users/CategoryById';
+  deleteOverProductsbyuseridapiUrl = 'https://localhost:7091/api/users/DeleteExpOverProduct';
 
 
 
@@ -90,5 +91,9 @@ export class UserService {
 
   deleteAccount(Id: any) {
     return this.http.delete(`${this.deleteAccountUrl}/${Id}`);
+  }
+  DeleteExpOver(userId:any){
+    return this.http.delete(`${this.deleteOverProductsbyuseridapiUrl}/${userId}`);
+
   }
 }

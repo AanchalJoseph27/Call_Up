@@ -314,6 +314,45 @@ public async Task<IActionResult> DeleteProduct(int id)
     }
 
 
+    //DELETE Exp Over Products
+
+    [HttpDelete("DeleteExpOverProduct/{userid}")]
+    public async Task<IActionResult> DeleteExpOverProduct(int userid)
+    {
+        var today = DateTime.Now;
+        var productExpOver = _context.Products
+    .Where(p =>
+        p.user_id == userid &&
+        p.IsDeleted == false &&
+        (
+            p.expiry_date < today ||
+            p.open_date.Value.AddDays(p.numberofdays) < today
+        )
+    )
+    .ToList();
+
+        if (!productExpOver.Any())
+        {
+            return NotFound(new { message = "Products not found" });
+        }
+
+        //  Update each item
+        foreach (var product in productExpOver)
+        {
+            product.IsDeleted = true;
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            message = "Products marked as deleted",
+            count = productExpOver.Count
+        });
+
+    }
+
+
 
     //DELETE ACCOUNT
 

@@ -9,7 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { Product } from '../modules/productModule';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Select, SelectModule } from "primeng/select";
 import { Category } from '../modules/categoryModule';
 import { LazyLoadEvent } from 'primeng/api';
@@ -20,19 +20,18 @@ import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-list-component',
-  imports: [CommonModule, TableModule, 
-    ProgressSpinnerModule, FormsModule, 
+  imports: [CommonModule, TableModule,
+    ProgressSpinnerModule, FormsModule,
     ButtonModule, DatePickerModule,
-     ToastModule, Select, Dialog,  CardModule,
-     SelectModule,
+    ToastModule, Select, Dialog, CardModule,
+    SelectModule,
     DatePickerModule,
     InputTextModule,
-    ButtonModule,
     CardModule,
     Card,
     DialogModule,
     CommonModule
-    ],
+  ],
   templateUrl: './list-component.html',
   styleUrl: './list-component.css',
   standalone: true,
@@ -52,12 +51,14 @@ export class ListComponent implements OnInit {
   editingRow: Product | null = null;
   categories: Category[] = [];
   category_id?: number | null = null;
-editrow:any=null;
-editProduct: any = {};
+  editrow: any = null;
+  editProduct: any = {};
 
   constructor(private userService: UserService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+        private confirmationService: ConfirmationService
+
   ) {
     this.loginUserId = sessionStorage.getItem("loginUserId");
     this.loading = true;
@@ -93,7 +94,7 @@ editProduct: any = {};
     this.product_category = null;
 
   }
-  
+
 
   getAllProductbyId(event: any) {
     debugger
@@ -114,29 +115,25 @@ editProduct: any = {};
     });
   }
   onRowEditInit(row: any) {
-     this.editingRow = row;
-  this.editProduct = { ...row };  
-  this.showDialogProduct = true;
-    if (this.editProduct?.id != null)
-    {
-      if (this.editProduct?.expiry_date)
-         { 
-          this.editProduct.expiry_date = new Date(row?.expiry_date); 
-        }
-      if (this.editProduct?.open_date) 
-        { 
-          this.editProduct.open_date = new Date(row.open_date); 
-        }
-      if (this.editProduct?.category_id) 
-        {
-          this.editProduct.category_id = row.category_id;
-        }
+    this.editingRow = row;
+    this.editProduct = { ...row };
+    this.showDialogProduct = true;
+    if (this.editProduct?.id != null) {
+      if (this.editProduct?.expiry_date) {
+        this.editProduct.expiry_date = new Date(row?.expiry_date);
+      }
+      if (this.editProduct?.open_date) {
+        this.editProduct.open_date = new Date(row.open_date);
+      }
+      if (this.editProduct?.category_id) {
+        this.editProduct.category_id = row.category_id;
+      }
     }
 
   }
 
   onRowEditSave(row: any) {
-    this.loading = true; 
+    this.loading = true;
 
     this.userService.updateProduct(row).subscribe({
       next: (res: any) => {
@@ -162,8 +159,8 @@ editProduct: any = {};
     });
 
     this.showDialogProduct = false;
-  this.editProduct = {};
-  this.editingRow = null;
+    this.editProduct = {};
+    this.editingRow = null;
   }
 
 
@@ -188,12 +185,52 @@ editProduct: any = {};
       }
     });
   }
-Submit(){}
+  Submit() { }
 
- hideProductDialog() {
-  this.showDialogProduct = false;
-  this.editProduct = {};
-  this.editingRow = null;
-}
+  hideProductDialog() {
+    this.showDialogProduct = false;
+    this.editProduct = {};
+    this.editingRow = null;
+  }
+
+
+  confirmDeleteExpOver() {
+        this.confirmationService.confirm({
+            message: 'Are you sure you want to delete all Expiry Over Products?',
+            header: 'Delete Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.DeleteExpOver();
+            },
+            reject: () => {
+                console.log('Delete cancelled');
+            }
+        });
+    }
+
+  DeleteExpOver() {
+    debugger
+        this.loading = true;
+
+    this.userService.DeleteExpOver(this.loginUserId).subscribe({
+      next:(res:any)=>{
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Product Deleted successfully'
+        });
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Deletion failed'
+        });
+        this.loading = false;
+      }
+    });
+
+   }
+
 
 }
